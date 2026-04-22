@@ -26,7 +26,10 @@
             width: 100%;
         }
 
-        h1 { color: #2c3e50; text-align: center; }
+        h1 { 
+            color: #2c3e50; 
+            text-align: center; 
+        }
 
         .question-card {
             background: var(--card-bg);
@@ -146,77 +149,105 @@
     // ==========================================
     // 1. DATABASE DOMANDE E RISPOSTE
     // ==========================================
-    // Istruzioni: 
-    // - Puoi aggiungere quante domande vuoi copiando il blocco tra le graffe { ... }.
-    // - Puoi mettere 2, 3, 4 o quante risposte vuoi per ogni domanda.
-    // - IMPORTANTE: Per far capire al sistema qual è la risposta esatta, 
-    //   il feedback DEVE iniziare esattamente con la parola "Corretto!"
-    // ==========================================
     
     const DATABASE_DOMANDE = [
         {
-            domanda: "Cosa trasporta un'onda meccanica lungo la sua direzione di propagazione?",
+            domanda: "Qual è la caratteristica fondamentale che definisce un'onda meccanica?",
             risposte: [
-                { 
-                    visibile: "A) Solo energia", 
-                    feedback: "Corretto!" 
-                },
-                { 
-                    visibile: "B) Materia ed energia", 
-                    feedback: "Errato!" 
-                },
-                { 
-                    visibile: "C) Solo materia", 
-                    feedback: "Errato!" 
-                },
-                { 
-                    visibile: "D) Nessuna delle precedenti", 
-                    feedback: "Errato!" 
-                }
+                { visibile: "A) Si propaga solo nel vuoto", feedback: "Errato!" },
+                { visibile: "B) Trasporta materia da un punto all'altro", feedback: "Errato!" },
+                { visibile: "C) Richiede un mezzo elastico per propagarsi", feedback: "Corretto!" },
+                { visibile: "D) È un'onda puramente elettromagnetica", feedback: "Errato!" }
             ]
         },
         {
-            domanda: "Se aumenti l'ampiezza di un'onda meccanica, cosa succede alla sua velocità?",
+            domanda: "In un'onda longitudinale, le particelle del mezzo oscillano:",
             risposte: [
-                { 
-                    visibile: "A) Aumenta", 
-                    feedback: "Errato!" 
-                },
-                { 
-                    visibile: "B) Diminuisce", 
-                    feedback: "Errato!" 
-                },
-                { 
-                    visibile: "C) Rimane invariata", 
-                    feedback: "Corretto!" 
-                }
+                { visibile: "A) Perpendicolarmente alla direzione dell'onda", feedback: "Errato!" },
+                { visibile: "B) Parallelamente alla direzione dell'onda", feedback: "Corretto!" },
+                { visibile: "C) In modo circolare costante", feedback: "Errato!" },
+                { visibile: "D) Rimanendo completamente immobili", feedback: "Errato!" }
             ]
         },
         {
-            domanda: "Due onde si incontrano su una corda. Cosa succede dopo essersi incrociate?",
+            domanda: "Se la frequenza di un'onda raddoppia (mantenendo costante la velocità), la lunghezza d'onda:",
             risposte: [
-                { 
-                    visibile: "A) Rimbalzano indietro", 
-                    feedback: "Errato!" 
-                },
-                { 
-                    visibile: "B) Proseguono inalterate", 
-                    feedback: "Corretto!" 
-                },
-                { 
-                    visibile: "C) Si fermano annullandosi", 
-                    feedback: "Errato!" 
-                }
+                { visibile: "A) Raddoppia", feedback: "Errato!" },
+                { visibile: "B) Rimane invariata", feedback: "Errato!" },
+                { visibile: "C) Diventa la metà", feedback: "Corretto!" },
+                { visibile: "D) Diventa quattro volte più piccola", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "Il suono è un esempio tipico di:",
+            risposte: [
+                { visibile: "A) Onda trasversale", feedback: "Errato!"},
+                { visibile: "B) Onda elettromagnetica", feedback: "Errato!" },
+                { visibile: "C) Onda longitudinale", feedback: "Corretto!" },
+                { visibile: "D) Onda stazionaria solo nel vuoto", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "In quale di questi mezzi il suono si propaga generalmente più velocemente?",
+            risposte: [
+                { visibile: "A) Aria a 0°C", feedback: "Errato!" },
+                { visibile: "B) Acqua", feedback: "Errato!" },
+                { visibile: "C) Acciaio", feedback: "Corretto!" },
+                { visibile: "D) Vuoto", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "Cosa accade durante un'interferenza distruttiva totale tra due onde identiche?",
+            risposte: [
+                { visibile: "A) L'ampiezza raddoppia", feedback: "Errato!" },
+                { visibile: "B) L'ampiezza risultante è nulla", feedback: "Corretto!" },
+                { visibile: "C) La frequenza dell'onda aumenta", feedback: "Errato!" },
+                { visibile: "D) Le onde cambiano direzione di 180°", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "Il periodo (T) di un'onda è definito come:",
+            risposte: [
+                { visibile: "A) Il numero di oscillazioni al secondo", feedback: "Errato!" },
+                { visibile: "B) La distanza tra due creste successive", feedback: "Errato!" },
+                { visibile: "C) Il tempo necessario per una oscillazione completa", feedback: "Corretto!" },
+                { visibile: "D) La massima distanza dalla posizione di equilibrio", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "Il fenomeno per cui un'onda aggira un ostacolo è detto:",
+            risposte: [
+                { visibile: "A) Rifrazione", feedback: "Errato!" },
+                { visibile: "B) Diffrazione", feedback: "Corretto!" },
+                { visibile: "C) Riflessione", feedback: "Errato!" },
+                { visibile: "D) Effetto Doppler", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "L'energia trasportata da un'onda è direttamente proporzionale al:",
+            risposte: [
+                { visibile: "A) Quadrato dell'ampiezza", feedback: "Corretto!" },
+                { visibile: "B) Valore della lunghezza d'onda", feedback: "Errato!" },
+                { visibile: "C) Mezzo di propagazione", feedback: "Errato!" },
+                { visibile: "D) Solo al periodo", feedback: "Errato!" }
+            ]
+        },
+        {
+            domanda: "Quando un'onda passa da un mezzo meno denso a uno più denso (rifrazione):",
+            risposte: [
+                { visibile: "A) La sua frequenza cambia", feedback: "Errato!" },
+                { visibile: "B) La sua velocità rimane costante", feedback: "Errato!"},
+                { visibile: "C) La sua velocità e lunghezza d'onda cambiano", feedback: "Corretto!"},
+                { visibile: "D) L'onda scompare sempre", feedback: "Errato!"}
             ]
         }
-
     ];
 
     // Inizializza lo stato "grattato" per ogni risposta
     DATABASE_DOMANDE.forEach(d => d.risposte.forEach(r => r.grattato = false));
 
     // ==========================================
-    // 2. MOTORE DEL QUIZ (Non c'è bisogno di modificare qui)
+    // 2. MOTORE DEL QUIZ
     // ==========================================
     let paginaCorrente = 0;
 
@@ -237,12 +268,8 @@
             const row = document.createElement('div');
             row.className = 'option-row';
             
-            // Il sistema controlla se il feedback inizia con "Corretto!"
             const isCorrect = opt.feedback.trim().startsWith("Corretto!");
-            
-            // Assegna il colore verde o rosso di conseguenza
             const resultClass = isCorrect ? 'correct' : 'wrong';
-            // Aggiunge un'icona testuale in base al risultato
             const icon = isCorrect ? '🏆 ' : '❌ ';
             
             row.innerHTML = `
@@ -254,7 +281,6 @@
             `;
             
             optionsList.appendChild(row);
-            
             setTimeout(() => initScratch(index, opt), 50);
         });
 
@@ -311,7 +337,6 @@
             e.preventDefault(); 
             
             opt.grattato = true;
-
             const pos = getCoordinates(e);
             
             ctx.globalCompositeOperation = 'destination-out';
