@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Onde Meccaniche - Gratta e Vinci</title>
     <style>
+        @font-face {
+        font-family: 'EasyReading';
+        /* Assicurati che il percorso (src) punti correttamente ai tuoi file */
+        src: url('fonts/EasyReading.woff2') format('woff2'),
+             url('fonts/EasyReading.woff') format('woff'),
+             url('fonts/EasyReading.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        }
+
         :root {
             --primary: #3498db;
             --bg: #f8f9fa;
@@ -12,7 +22,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 2. MODIFICA IL FONT-FAMILY QUI */
+            font-family: 'EasyReading', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg);
             margin: 0;
             padding: 20px;
