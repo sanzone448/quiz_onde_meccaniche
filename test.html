@@ -55,32 +55,67 @@
     const questions = [
         {
             text: "Quale grandezza distingue un suono più acuto da uno più grave? (x = ____)",
-            keywords: ["Frequenza"], // Accetta queste cifre
+            keywords: ["Frequenza"],
             feedbackOk: "Ottimo!",
-            feedbackNo: "Riprova."
+            feedbackNo: "Riprova.",
+            maxParole: 1 // Limite specifico per la prima domanda
         },
         {
             text: "Se la temperatura aumentasse, la velocità del suono aumenterebbe o diminuirebbe?",
             keywords: ["aumenta", "cresce"],
             feedbackOk: "Esatto! Maggiore temperatura significa maggiore energia cinetica.",
-            feedbackNo: "Non proprio. Pensa al legame tra agitazione termica e onde meccaniche."
+            feedbackNo: "Non proprio. Pensa al legame tra agitazione termica e onde meccaniche.",
+            maxParole: 2 // Limite specifico per la seconda domanda
         },
         {
             text: "Come si chiama il fenomeno per cui il suono torna indietro dopo aver colpito un ostacolo?",
             keywords: ["riflessione", "eco"],
             feedbackOk: "Corretto! La riflessione è alla base dell'eco.",
-            feedbackNo: "No, è un termine specifico che inizia con R o E."
+            feedbackNo: "No, è un termine specifico che inizia con R o E.",
+            maxParole: 2 // Limite specifico per la terza domanda
         },
         {
             text: "Domanda finale: descrivi brevemente la relazione tra frequenza e altezza del suono.",
             keywords: ["proporzionale", "alta", "bassa", "acuto", "grave"],
             feedbackOk: "Perfetto! Il laboratorio è terminato con successo.",
-            feedbackNo: "Cerca di usare i termini tecnici corretti (acuto/grave o frequenza alta/bassa)."
+            feedbackNo: "Cerca di usare i termini tecnici corretti (acuto/grave o frequenza alta/bassa).",
+            maxParole: 10 // Limite più ampio per una risposta aperta
         }
     ];
 
+    
+
+    // Aggiungiamo un "ascoltatore" che si attiva ogni volta che l'utente digita qualcosa
+    document.getElementById('user-answer').addEventListener('input', function() {
+        // 1. Recupera il limite di parole specifico per la domanda corrente
+        const limiteCorrente = questions[currentStep].maxParole;
+    
+        // Dividiamo il testo inserito in base agli spazi per contare le parole
+        let parole = this.value.trim().split(/\s+/);
+        
+        // Se il campo è vuoto, l'array ha un elemento vuoto, quindi lo azzeriamo
+        if (parole[0] === "") {
+            parole = [];
+        }
+    
+        // Se il numero di parole supera il limite consentito per QUESTA domanda
+        if (parole.length > limiteCorrente) {
+            // Tagliamo via le parole in eccesso e le riuniamo con uno spazio
+            this.value = parole.slice(0, limiteCorrente).join(" ") + " ";
+            
+            // Mostriamo un messaggio di avviso all'utente
+            const feedback = document.getElementById('feedback');
+            feedback.innerText = "Attenzione: per questa domanda puoi inserire massimo " + limiteCorrente + " parole.";
+            feedback.className = "error";
+        }
+    });
+    
     let currentStep = 0;
 
+    window.onload = function() {
+        document.getElementById('q-text').innerText = questions[currentStep].text;
+    };
+    
     function checkAnswer() {
         const input = document.getElementById('user-answer').value.toLowerCase();
         const feedback = document.getElementById('feedback');
