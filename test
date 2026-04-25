@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio Suono</title>
+    <style>
+        @font-face {
+        font-family: 'EasyReading';
+        /* Assicurati che il percorso (src) punti correttamente ai tuoi file */
+        src: url('Fonts/EasyReadingPRO.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+        }
+
+        :root {
+            --primary: #3498db;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            /* 2. MODIFICA IL FONT-FAMILY QUI */
+            font-family: 'EasyReading', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 { color: #1a73e8; }
+        input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        button { background: #1a73e8; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; width: 100%; }
+        button:hover { background: #1557b0; }
+        #feedback { margin-top: 15px; font-weight: bold; min-height: 20px; }
+        .success { color: #28a745; }
+        .error { color: #dc3545; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <div id="game-container">
+        <h2 id="q-title">Domanda 1</h2>
+        <p id="q-text">Inserisci qui il testo della prima domanda sull'esperimento del suono.</p>
+        <input type="text" id="user-answer" placeholder="Scrivi la tua risposta...">
+        <button onclick="checkAnswer()">Invia Risposta</button>
+        <p id="feedback"></p>
+    </div>
+</div>
+
+<script>
+    // --- CONFIGURAZIONE DOMANDE E PAROLE CHIAVE ---
+    const questions = [
+        {
+            text: "Qual è la velocità del suono approssimativa che avete misurato (in m/s)?",
+            keywords: ["340", "343", "344"], // Accetta queste cifre
+            feedbackOk: "Ottimo! La velocità è coerente con i dati teorici.",
+            feedbackNo: "Riprova. Il valore sembra troppo lontano dai 340 m/s."
+        },
+        {
+            text: "Se la temperatura aumentasse, la velocità del suono aumenterebbe o diminuirebbe?",
+            keywords: ["aumenta", "cresce"],
+            feedbackOk: "Esatto! Maggiore temperatura significa maggiore energia cinetica.",
+            feedbackNo: "Non proprio. Pensa al legame tra agitazione termica e onde meccaniche."
+        },
+        {
+            text: "Come si chiama il fenomeno per cui il suono torna indietro dopo aver colpito un ostacolo?",
+            keywords: ["riflessione", "eco"],
+            feedbackOk: "Corretto! La riflessione è alla base dell'eco.",
+            feedbackNo: "No, è un termine specifico che inizia con R o E."
+        },
+        {
+            text: "Domanda finale: descrivi brevemente la relazione tra frequenza e altezza del suono.",
+            keywords: ["proporzionale", "alta", "bassa", "acuto", "grave"],
+            feedbackOk: "Perfetto! Il laboratorio è terminato con successo.",
+            feedbackNo: "Cerca di usare i termini tecnici corretti (acuto/grave o frequenza alta/bassa)."
+        }
+    ];
+
+    let currentStep = 0;
+
+    function checkAnswer() {
+        const input = document.getElementById('user-answer').value.toLowerCase();
+        const feedback = document.getElementById('feedback');
+        const q = questions[currentStep];
+
+        // Controllo se almeno una parola chiave è presente nella risposta
+        const isCorrect = q.keywords.some(kw => input.includes(kw.toLowerCase()));
+
+        if (isCorrect) {
+            feedback.className = "success";
+            feedback.innerText = q.feedbackOk;
+           
+            currentStep++;
+            if (currentStep < questions.length) {
+                // Passa alla prossima domanda dopo 2 secondi
+                setTimeout(() => {
+                    document.getElementById('q-title').innerText = "Domanda " + (currentStep + 1);
+                    document.getElementById('q-text').innerText = questions[currentStep].text;
+                    document.getElementById('user-answer').value = "";
+                    feedback.innerText = "";
+                }, 2000);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('game-container').innerHTML = "<h2>🎉 Complimenti!</h2><p>Avete completato tutte le verifiche correttamente.</p>";
+                }, 2000);
+            }
+        } else {
+            feedback.className = "error";
+            feedback.innerText = q.feedbackNo;
+        }
+    }
+</script>
+
+</body>
+</html>
