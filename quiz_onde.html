@@ -152,6 +152,12 @@
         <span id="pageInfo"></span>
         <button id="nextBtn" onclick="changePage(1)">Successiva ➡️</button>
     </div>
+    
+    <h2 style="text-align: center; color: var(--primary); margin-top: -10px;">
+        Punteggio: <span id="punteggio">0.0</span>
+    </h2>
+
+    <div id="quiz-container"></div>
 </div>
 
 <script>
@@ -262,8 +268,19 @@
     ];
 
     // Inizializza lo stato "grattato" per ogni risposta
-    DATABASE_DOMANDE.forEach(d => d.risposte.forEach(r => r.grattato = false));
+    DATABASE_DOMANDE.forEach(d => {
+        d.risolta = false; // NUOVO: traccia se la risposta corretta è già stata trovata
+        d.risposte.forEach(r => r.grattato = false);
+    });
 
+    // NUOVO: Variabile per tenere traccia del punteggio totale
+    let punteggioTotale = 0;
+
+    // NUOVO: Funzione per aggiornare il testo a schermo
+    function aggiornaPunteggioUI() {
+        // Usa toFixed(1) per evitare numeri periodici strani (es. 0.700000001)
+        document.getElementById('punteggio').innerText = punteggioTotale.toFixed(1);
+    }
     // ==========================================
     // 2. MOTORE DEL QUIZ
     // ==========================================
@@ -354,7 +371,29 @@
             if (!isDrawing) return;
             e.preventDefault(); 
             
-            opt.grattato = true;
+            // --- INIZIO LOGICA PUNTEGGIO ---
+            // Se è il primo millisecondo in cui questa opzione viene grattata
+            if (!opt.grattato) {
+                opt.grattato = true; // Segnala come grattata per non ripetere il calcolo
+                
+                const domandaCorrente = DATABASE_DOMANDE[paginaCorrente];
+                
+                // Se la domanda non è ancora stata risolta (la corretta non è ancora stata grattata)
+                if (!domandaCorrente.risolta) {
+                    const isCorrect = opt.feedback.trim().startsWith("Corretto!");
+                    
+                    if (isCorrect) {
+                        punteggioTotale += 1;
+                        domandaCorrente.risolta = true; // Blocca ulteriori modifiche di punteggio per questa domanda
+                    } else {
+                        punteggioTotale -= 0.3;
+                    }
+                    
+                    aggiornaPunteggioUI(); // Aggiorna il numero a schermo
+                }
+            }
+            // --- FINE LOGICA PUNTEGGIO ---
+
             const pos = getCoordinates(e);
             
             ctx.globalCompositeOperation = 'destination-out';
